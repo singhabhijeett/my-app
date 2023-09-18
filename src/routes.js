@@ -15,6 +15,22 @@ const MainApp = () => {
 };
 
 export default function AppRoutes() {
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   async function checkLogin() {
+  //     const token = await localStorage.getItem("token");
+  //     console.log(token);
+  //     if (token) {
+  //       setIsLoggedIn(true);
+  //     } else {
+  //       setIsLoggedIn(false);
+  //     }
+  //     setLoading(false);
+  //   }
+  //   checkLogin();
+  // }, []);
   return (
     <Router>
       <Routes>

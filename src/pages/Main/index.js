@@ -1,328 +1,164 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Container } from "../../components/container";
 import { Section } from "../../components/section";
 import { Form, Button } from 'antd';
 import Select from "../../components/select";
+import { data } from './data';
+// import axios from 'axios';
 
-// styled components
-//
+const Main = () => {
+  const [domain, setDomain] = useState([]);
+  const [comps, setComps] = useState([]);
+  const [pods, setPods] = useState([]);
+  const [testtype, setTesttype] = useState([]);
 
-class Main extends Component {
-  state = {
-    source: {
-      domain: [
-        {
-          id: 1,
-          name: "IMS"
-        },
-        {
-          id: 2,
-          name: "Domain 2"
-        },
-        {
-          id: 3,
-          name: "Domain 3"
-        }
-      ],
-      comps: [
-        {
-          id: 1,
-          name: "ASBC",
-          domain: 1
-        },
-        {
-          id: 2,
-          name: "CFX",
-          domain: 1
-        },
-        {
-          id: 3,
-          name: "NTAS",
-          domain: 1
-        },
-        {
-          id: 4,
-          name: "ISBC",
-          domain: 1
-        },
-        {
-          id: 5,
-          name: "MNO-ISBC",
-          domain: 1
-        },
-        {
-          id: 6,
-          name: "PA-ISBC",
-          domain: 1
-        },
-        {
-          id: 6,
-          name: "STP",
-          domain: 1
-        },
-        {
-          id: 6,
-          name: "DEA-I",
-          domain: 1
-        },
-        {
-          id: 6,
-          name: "MRF",
-          domain: 1
-        },
-        {
-          id: 6,
-          name: "NN",
-          domain: 1
-        },
-        {
-          id: 6,
-          name: "PA-NN",
-          domain: 1
-        }
-      ],
-      pods: [
-        {
-          id: 1,
-          name: "ASBC-Pod 2",
-          comps: 1
-        },
-        {
-          id: 2,
-          name: "ASBC-Pod 3",
-          comps: 1
-        },
-        {
-          id: 3,
-          name: "CFX-Pod 2",
-          comps: 2
-        },
-        {
-          id: 4,
-          name: "CFX-Pod 3",
-          comps: 2
-        },
-        {
-          id: 5,
-          name: "NTAS-Pod 2",
-          comps: 3
-        },
-        {
-          id: 6,
-          name: "NTAS-Pod 3",
-          comps: 3
-        },
-        {
-          id: 7,
-          name: "ISBC-Pod 2",
-          comps: 4
-        },
-        {
-          id: 8,
-          name: "ISBC - Pod 3",
-          comps: 4
-        },
-        {
-          id: 9,
-          name: "MNO-ISBC - Pod 2",
-          comps: 5
-        },
-        {
-          id: 10,
-          name: "MNO-ISBC - Pod 3",
-          comps: 5
-        },
-        {
-          id: 11,
-          name: "PA-ISBC - Pod 2",
-          comps: 6
-        },
-        {
-          id: 12,
-          name: "PA-ISBC - Pod 3",
-          comps: 6
-        },
-        {
-          id: 13,
-          name: "STP - Pod 2",
-          comps: 7
-        },
-        {
-          id: 13,
-          name: "STP - Pod 3",
-          comps: 7
-        },
-        {
-          id: 13,
-          name: "DEA-I - Pod 2",
-          comps: 8
-        },
-        {
-          id: 13,
-          name: "DEA-I - Pod 3",
-          comps: 8
-        },
-        {
-          id: 13,
-          name: "MRF - Pod 2",
-          comps: 9
-        },
-        {
-          id: 13,
-          name: "NN - Pod 2",
-          comps: 10
-        },
-        {
-          id: 13,
-          name: "NN - Pod 2",
-          comps: 10
-        },
-        {
-          id: 13,
-          name: "PA-NN - Pod 2",
-          comps: 11
-        }
-      ],
-      testtype: [
-        {
-          id: 1,
-          name: "Signalling Pcaps",
-          pods: 1
-        },
-        {
-          id: 2,
-          name: "Process Logs",
-          pods: 1
-        },
-        {
-          id: 3,
-          name: "Signalling Pcaps",
-          pods: 2
-        },
-        {
-          id: 4,
-          name: "Process Logs",
-          pods: 2
-        },
-        {
-          id: 5,
-          name: "Signalling Pcaps",
-          pods: 3
-        },
-        {
-          id: 6,
-          name: "Process Logs",
-          pods: 3
-        },
-        {
-          id: 7,
-          name: "Signalling Pcaps",
-          pods: 4
-        },
-        {
-          id: 8,
-          name: "Process Logs",
-          pods: 4
-        },
-        {
-          id: 9,
-          name: "Signalling Pcaps",
-          pods: 5
-        },
-        {
-          id: 5,
-          name: "Process Logs",
-          pods: 5
-        }
-      ]
-    },
+  const [source,] = useState(data);
 
-    domain: [],
-    comps: [],
-    pods: [],
-    testtype: [],
+  const [currentDomain, setCurrentDomain] = useState(0);
+  const [currentComps, setCurrentComps] = useState(0);
+  const [currentPods, setCurrentPods] = useState(0);
+  const [currentTesttype, setCurrentTesttype] = useState(0);
 
-    sourceMap: {
-      domain: 0,
-      comps: 1,
-      pods: 2,
-      testtype: 3
-    }
-  };
+  const [sourceMap,] = useState({
+    domain: 0,
+    comps: 1,
+    pods: 2,
+    testtype: 3
+  });
 
-  componentDidMount = () => {
-    const { domain } = this.state.source;
-    this.setState({
-      domain
-    });
-  };
+  useEffect(() => {
+    const { domain } = source;
+    setDomain(domain);
+  }, []);
 
-  handleChange = params => ev => {
+  const handleChange = params => ev => {
     const target = ev.currentTarget;
     const { value } = target;
     const { current, next } = params;
-    this.setNewValues({ value, current, next });
-  };
+    if (current === 'domain') {
+      setCurrentDomain(value);
 
-  setNewValues = ({ value, current, next }) => {
-    const { source } = this.state;
+    } else if (current === 'comps') {
+      setCurrentComps(value);
+    } else if (current === 'pods') {
+      setCurrentPods(value);
+    } else {
+      setCurrentTesttype(value);
+    }
+    setNewValues({ value, current, next });
+  }
+
+  const setNewValues = ({ value, current, next }) => {
     const data = source[next];
 
     if (data) {
-      this.setState({
-        [next]: data.filter(el => el[current] === Number(value))
-      });
+      if (current === 'domain') {
+        setComps(data.filter(el => el[current] === Number(value)));
+
+      } else if (current === 'comps') {
+        setPods(data.filter(el => el[current] === Number(value)));
+      } else if (current === 'pods') {
+        setTesttype(data.filter(el => el[current] === Number(value)));
+      } else {
+        setTesttype(data.filter(el => el[current] === Number(value)));
+      }
     }
 
-    this.clearValues(next);
-  };
+    clearValues(next);
+  }
 
-  clearValues = next => {
-    const { sourceMap } = this.state;
+  const clearValues = next => {
     const nextkey = sourceMap[next];
 
     Object.entries(sourceMap)
       .filter(([_, value]) => value > nextkey)
       .forEach(([key]) => {
-        this.setState({
-          [key]: []
-        });
+        if (key === 'comps') {
+          setComps([]);
+        } else if (key === 'pods') {
+          setPods([]);
+        } else if (key === 'testtype') {
+          setTesttype([]);
+        }
       });
   };
-  
-  render() {
-    const { domain, comps, pods, testtype } = this.state;
-    return (
-      <Container>
-        <h1>Global Tracer</h1>
-        <Section>
-          <Select
-            data={domain}
-            action={this.handleChange}
-            current="domain"
-            next="comps"
-          />
-          <Select
-            data={comps}
-            action={this.handleChange}
-            current="comps"
-            next="pods"
-          />
-          <Select
-            data={pods}
-            action={this.handleChange}
-            current="pods"
-            next="testtype"
-          />
-          <Select data={testtype} />
-          <Form.Item>
-                    <Button type="primary" htmlType="submit">Take Traces</Button>
-          </Form.Item>
-        </Section>
-      </Container>
-    );
-  }
-}
+
+  const onSubmit = async () => {
+    if (!currentDomain || !currentComps || !currentPods || !currentTesttype) {
+      alert('Please select all options');
+      return;
+    }
+    let dataToSend = []
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === 'domain') {
+        const data = {
+          'domain': value.find(el => el.id === Number(currentDomain)).name,
+        }
+        dataToSend.push(data)
+      } else if (key === 'comps') {
+        const data = {
+          'comps': value.find(el => el.id === Number(currentComps)).name,
+        }
+        dataToSend.push(data)
+      } else if (key === 'pods') {
+        const data = {
+          'pods': value.find(el => el.id === Number(currentPods)).name,
+        }
+        dataToSend.push(data)
+      } else {
+        const data = {
+          'testtype': value.find(el => el.id === Number(currentTesttype)).name,
+        }
+        dataToSend.push(data)
+      }
+    });
+    console.log('dataToSend', dataToSend);
+    // const response = await axios.post('http://localhost:5000/api/v1/tracer', dataToSend, {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': 'Bearer ' + localStorage.getItem('token')
+    //   }
+    // });
+    // console.log('response', response);
+  };
+
+  return (
+    <Container>
+      <h1>Global Tracer</h1>
+      <Section>
+        <Select
+          data={domain}
+          action={handleChange}
+          current="domain"
+          next="comps"
+        />
+        <Select
+          data={comps}
+          action={handleChange}
+          current="comps"
+          next="pods"
+        />
+        <Select
+          data={pods}
+          action={handleChange}
+          current="pods"
+          next="testtype"
+        />
+        <Select
+          data={testtype}
+          action={handleChange}
+          current={'testtype'}
+          next=""
+        />
+        <Form.Item>
+          <Button
+            onClick={onSubmit}
+            type="primary" htmlType="submit">Take Traces</Button>
+        </Form.Item>
+      </Section>
+    </Container>
+  );
+};
 
 export default Main;

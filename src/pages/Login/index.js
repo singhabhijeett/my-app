@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    await localStorage.setItem('token', '123456');
     navigate("/dashboard");
   };
 
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = async (errorInfo) => {
     console.log("Failed:", errorInfo);
+    await localStorage.clear();
   };
   return (
     <div className="login">
